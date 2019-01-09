@@ -1,0 +1,51 @@
+.wpcf7-form {
+    label,
+    .wpcf7-form-control-wrap {
+        display: block;
+    }
+    label {
+        font-weight: 700;
+    }
+    select,
+    textarea,
+    input:not([type]),
+    input[type="text"],
+    input[type="password"],
+    input[type="datetime"], 
+    input[type="datetime-local"],
+    input[type="date"],
+    input[type="month"],
+    input[type="time"],
+    input[type="week"],
+    input[type="number"],
+    input[type="email"],
+    input[type="url"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="color"] {
+        width: 100%;
+    }
+    textarea {
+        max-height: 180px;
+    }
+    input.wpcf7-submit {
+        .uk-button();
+        .uk-button-large();
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        min-width: 200px;
+        font-family: @bw-font-family-serif;
+        cursor: pointer;
+        color: #fff;
+        background-color: @bw-green;
+        border: 2px solid @bw-green;
+        transition: all .25s ease-out; 
+        &:hover,
+        &:focus {
+            color: @bw-green !important;
+            background-color: #fff;
+            border-color: @bw-green;
+        }
+    }
+}
