@@ -1,0 +1,28 @@
+{
+	"variables": {
+		"root-font-size": "62.5%",
+		"color-gray-dark": "#444",
+		"color-gray-light": "#eee",
+		"color-primary": "#349A88",
+		"color-accent": "#bc8131",
+		"color-headings": "#053359",
+		"global-font-color": "#444",
+		"global-font-family": "'Open Sans', sans-serif",
+		"global-font-size": "1.6rem",
+		"global-font-line-height": "1.4",
+		"highlight-font-family": "'Merriweather', serif",
+		"content-width": "110rem",
+		"sidebar-width": "30rem",
+		"dropdown-symbol-width": "0.7em",
+		"small-font-size": "16",
+		"regular-font-size": "20",
+		"large-font-size": "36",
+		"larger-font-size": "48"
+	},
+	"queries": {
+		"narrow-menu-query": "screen and (max-width: 991px)",
+		"wide-menu-query": "screen and (min-width: 992px)",
+		"content-query": "screen and (min-width: 768px)",
+		"sidebar-query": "screen and (min-width: 992px)"
+	}
+}

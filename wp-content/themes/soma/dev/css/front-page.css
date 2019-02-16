@@ -1,0 +1,44 @@
+/**
+ * Custom styles for the front-page.php template.
+ */
+
+h1.entry-title {
+	font-size: 2.5rem !important;
+	text-align: center;
+	max-width: 50rem;
+	margin: 1em auto !important;
+}
+
+@media (--sidebar-query) {
+	.post {
+		margin-bottom: 0;
+		padding: 0 2rem;
+		border: 1px solid hsl(0, 0%, 50%);
+	}
+
+	.post:first-of-type {
+		grid-column: span 2;
+		margin: 0;
+		padding: 0;
+
+	}
+
+	.wp-block-image.alignleft,
+	.wp-caption.alignleft {
+		margin-left: 0;
+	}
+
+	.wp-block-image.alignright,
+	.wp-caption.alignright {
+		margin-right: 0;
+	}
+
+	.site-main .posts-navigation {
+		width: 100%;
+		margin-bottom: 0;
+		padding: 2rem 0 0;
+		border-top: 1px solid #111;
+		border-bottom: none;
+	}
+
+}

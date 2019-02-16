@@ -1,0 +1,1 @@
+"use strict";!function(){if(document.querySelectorAll(".rellax").length)new Rellax(".rellax",{center:!0});new SmoothScroll('a[href*="#"]')}();

@@ -1,0 +1,145 @@
+/* Hero canvas styles */
+
+.site-header {
+	position: fixed;
+}
+
+/* @media (--wide-menu-query) {
+	.site-header {
+		position: fixed;
+	}
+} */
+
+.hero-canvas {
+	position: relative;
+	margin-bottom: 6rem;
+}
+
+.hero-canvas,
+.hero-canvas figure,
+.hero-canvas::before,
+.hero-canvas .rellax {
+	height: 100vh;
+	min-height: 70rem;
+	max-height: 80rem;
+	overflow: hidden;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+	.hero-canvas,
+	.hero-canvas figure,
+	.hero-canvas::before,
+	.hero-canvas .rellax {
+		height: 80vh;
+	}
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1599px) {
+	.hero-canvas,
+	.hero-canvas figure,
+	.hero-canvas::before,
+	.hero-canvas .rellax {
+		height: 100vh;
+	}
+}
+
+@media screen and (min-width: 1400px) {
+	.hero-canvas,
+	.hero-canvas figure,
+	.hero-canvas::before,
+	.hero-canvas .rellax {
+		max-height: none;
+	}
+}
+
+.hero-canvas__object {
+	position: absolute;
+	width: auto;
+	max-width: none;
+	height: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+@media screen and (min-width: 1025px) {
+	.hero-canvas__object {
+		width: 100%;
+		height: auto;
+	}
+}
+
+.hero-canvas::before {
+	content: " ";
+	display: block;
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	right: 0;
+	left: 0;
+	opacity: .8;
+	background: rgba(255, 255, 255, .8);
+}
+
+.hero-canvas .wp-block-button__link {
+	font-size: 1.8rem;
+}
+@media screen (min-width: 768px) {
+	.hero-canvas .wp-block-button__link {
+		font-size: 2.1rem;
+	}
+}
+
+.hero-canvas figure {
+	position: relative;
+	margin: 0;
+}
+
+.hero-canvas__caption {
+	font-size: 1.8rem;
+	box-sizing: content-box;
+	position: absolute;
+	z-index: 10;
+	top: 55%;
+	transform: translateY(-50%);
+	padding: 3rem;
+	max-width: 75%;
+}
+
+@media screen and (min-width: 992px) {
+	.hero-canvas::before {
+		background: linear-gradient(140deg,rgba(255,255,255,.9),rgba(255,255,255,.9) 40%,transparent 75%)
+	}
+
+	.hero-canvas__caption {
+		max-width: 33%;
+		min-width: 40rem;
+		font-size: 2.1rem;
+		left: 10%;
+		top: 50%;
+	}
+}
+
+/* Hero canvas with admin bar */
+@media (min-width: 601px) {
+	.admin-bar .hero-canvas {
+		height: calc(100vh - 46px);
+		max-height: calc(100vh - 46px);
+	}
+}
+@media (min-width: 783px) {
+	.admin-bar .hero-canvas {
+		height: calc(100vh - 32px);
+		max-height: calc(100vh - 32px);
+	}
+}
+
+.hero-canvas__tip {
+	position: absolute;
+	z-index: 1;
+	bottom: 8vh;
+	font-size: 2.1rem;
+    text-align: center;
+    left: 0;
+	right: 0;
+	color: var(--color-headings);
+}
