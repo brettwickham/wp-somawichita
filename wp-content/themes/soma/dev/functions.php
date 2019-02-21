@@ -159,9 +159,8 @@ function wprig_setup() {
 	 * Optional: Disable custom colors in block color palettes.
 	 *
 	 * @link https://wordpress.org/gutenberg/handbook/extensibility/theme-support/
-	 *
-	 * add_theme_support( 'disable-custom-colors' );
 	 */
+	add_theme_support( 'disable-custom-colors' );
 
 	/**
 	 * Add support for font sizes.
@@ -578,3 +577,56 @@ function wprig_get_image_id( $image_url ) {
 
 	return $attachment[0];
 }
+
+/*
+ * add svg support
+ */
+function wprig_svg_mime_types( $mimes ) {
+	$mimes['svg'] = 'image/svg+xml';
+	return $mimes;
+}
+add_filter( 'upload_mimes', 'wprig_svg_mime_types' );
+
+function wprig_svg_attachment_metadata( $metadata, $attachment_id ) {
+	$mime = get_post_mime_type( $attachment_id );
+	if ( $mime == 'image/svg+xml' ) {
+		$svg_path = get_attached_file( $attachment_id );
+		$upload_dir = wp_upload_dir();
+		// get the path relative to /uploads/ - found no better way:
+		$relative_path = str_replace($upload_dir['basedir'], '', $svg_path);
+		$filename = basename( $svg_path );
+
+		$dimensions = bodhi_svgs_get_dimensions( $svg_path );
+
+		$metadata = array(
+			'width' => intval($dimensions->width),
+			'height' => intval($dimensions->height),
+			'file' => $relative_path
+		);
+
+		// Might come handy to create the sizes array too - But it's not needed for this workaround! Always links to original svg-file => Hey, it's a vector graphic! ;)
+		$sizes = array();
+		foreach ( get_intermediate_image_sizes() as $s ) {
+			$sizes[$s] = array( 'width' => '', 'height' => '', 'crop' => false );
+			if ( isset( $_wp_additional_image_sizes[$s]['width'] ) )
+				$sizes[$s]['width'] = intval( $_wp_additional_image_sizes[$s]['width'] ); // For theme-added sizes
+			else
+				$sizes[$s]['width'] = get_option( "{$s}_size_w" ); // For default sizes set in options
+			if ( isset( $_wp_additional_image_sizes[$s]['height'] ) )
+				$sizes[$s]['height'] = intval( $_wp_additional_image_sizes[$s]['height'] ); // For theme-added sizes
+			else
+				$sizes[$s]['height'] = get_option( "{$s}_size_h" ); // For default sizes set in options
+			if ( isset( $_wp_additional_image_sizes[$s]['crop'] ) )
+				$sizes[$s]['crop'] = intval( $_wp_additional_image_sizes[$s]['crop'] ); // For theme-added sizes
+			else
+				$sizes[$s]['crop'] = get_option( "{$s}_crop" ); // For default sizes set in options
+
+			$sizes[$s]['file'] =  $filename;
+			$sizes[$s]['mime-type'] =  'image/svg+xml';
+		}
+		$metadata['sizes'] = $sizes;
+	}
+
+	return $metadata;
+}
+add_filter( 'wp_generate_attachment_metadata', 'wprig_svg_attachment_metadata', 10, 3 );
