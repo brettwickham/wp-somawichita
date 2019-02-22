@@ -577,12 +577,3 @@ function soma_get_image_id( $image_url ) {
 
 	return $attachment[0];
 }
-
-/*
- * add svg support
- */
-function soma_svg_mime_types( $mimes ) {
-	$mimes['svg'] = 'image/svg+xml';
-	return $mimes;
-}
-add_filter( 'upload_mimes', 'soma_svg_mime_types' );
