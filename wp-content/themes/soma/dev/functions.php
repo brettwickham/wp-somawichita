@@ -451,53 +451,13 @@ function wprig_bust_cache( $file_path = null ) {
 	return $file_last_mod;
 }
 
-add_shortcode( 'preview_posts', function($atts = array(), $content = null) {
+add_shortcode( 'preview_posts', function( $atts = array(), $content = null ) {
 	extract( shortcode_atts( array(
 		'posts_per_page' => '3',
 		'post_type' => 'post',
 	), $atts ) );
 
 	$output = '';
-
-	function template_helper() {
-		$output = '';
-		$link_open = '<a href="' . get_the_permalink() . '" rel="bookmark">';
-		$link_close = '</a>';
-		$output .= '<li>';
-		$output .= has_post_thumbnail() ? '<div class="preview-posts__thumbnail-wrapper">' . $link_open : '';
-		$output .= get_the_post_thumbnail();
-		$output .= has_post_thumbnail() ? $link_close . '</div>' : '';
-		$output .= '<h4 class="preview-posts__title">' . $link_open . get_the_title() . $link_close . '</h4>';
-		$output .= '<div class="mb-1">' . get_the_excerpt() . '</div>';
-		$output .= '<div class="wp-block-button btn--sm">';
-		$output .= '<a class="wp-block-button__link" href="'. get_the_permalink() .'" rel="bookmark">Read More</a>';
-		$output .= '</div>';
-		$output .= '</li>';
-
-		return $output;
-	}
-
-	// Handle sticky posts
-	$sticky = get_option( 'sticky_posts' );
-
-	$sticky_args = array(
-		'posts_per_page' => 1,
-		'post__in'  => $sticky,
-		'ignore_sticky_posts' => 1
-	);
-	$sticky_query = new WP_Query( $sticky_args );
-
-	if ( isset($sticky[0]) ) {
-		// At least one sticky post exists
-		$output .= '<ul>';
-		$posts_per_page = 2;
-
-		$sticky_query->the_post();
-		$output .= template_helper();
-
-		// Restore original Post Data
-		wp_reset_postdata();
-	}
 
 	// The Query
 	$args = array(
@@ -509,30 +469,41 @@ add_shortcode( 'preview_posts', function($atts = array(), $content = null) {
 
 	// The Loop
 	if ( $the_query->have_posts() ) {
-		if ( !isset($sticky[0]) ) {
-			$output .= '<ul>';
-		}
+		$output .= '<ul>';
 		while ( $the_query->have_posts() ) {
 			$the_query->the_post();
-			$output .= template_helper();
+			$output .= wprig_preview_posts_helper();
 		}
 		$output .= '</ul>';
 		// Restore original Post Data
 		wp_reset_postdata();
 	} else {
 		// No posts found
-		if ( isset($sticky[0]) ) {
-			$output .= '<li>No posts found</li></ul>';
-		}
-		else {
-			$output .= '<ul><li>No posts found</li></ul>';
-		}
+		$output .= '<ul><li>No posts found</li></ul>';
 	}
 
 	return '<div class="preview-posts">' . $output . '</div>';
 } );
 
-add_shortcode( 'search_form', function($atts = array(), $content = null) {
+function wprig_preview_posts_helper() {
+	$output = '';
+	$link_open = '<a href="' . get_the_permalink() . '" rel="bookmark">';
+	$link_close = '</a>';
+	$output .= '<li>';
+	$output .= has_post_thumbnail() ? '<div class="preview-posts__thumbnail-wrapper">' . $link_open : '';
+	$output .= get_the_post_thumbnail();
+	$output .= has_post_thumbnail() ? $link_close . '</div>' : '';
+	$output .= '<h4 class="preview-posts__title">' . $link_open . get_the_title() . $link_close . '</h4>';
+	$output .= '<div class="mb-1">' . get_the_excerpt() . '</div>';
+	$output .= '<div class="wp-block-button btn--sm">';
+	$output .= '<a class="wp-block-button__link" href="'. get_the_permalink() .'" rel="bookmark">Read More</a>';
+	$output .= '</div>';
+	$output .= '</li>';
+
+	return $output;
+}
+
+add_shortcode( 'search_form', function( $atts = array(), $content = null ) {
 	return get_search_form( false );
 } );
 
